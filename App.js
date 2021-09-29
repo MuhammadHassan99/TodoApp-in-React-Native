@@ -6,6 +6,7 @@ import {
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
+  ScrollView,
 } from 'react-native';
 import AddTodo from './components/addTodo';
 import Header from './components/header';
@@ -62,19 +63,31 @@ const App = () => {
             setText={setText}
           />
           <View style={styles.list}>
-            <FlatList
-              data={todos}
-              removeClippedSubviews={false}
-              renderItem={({item}) => (
-                <TodoItems
-                  submitHandler={submitHandler}
-                  item={item}
-                  pressHandler={pressHandler}
-                  editTodo={editTodo}
-                />
+            <ScrollView>
+              {React.Children.toArray(
+                todos.map(item => (
+                  <TodoItems
+                    submitHandler={submitHandler}
+                    item={item}
+                    pressHandler={pressHandler}
+                    editTodo={editTodo}
+                  />
+                )),
               )}
-              keyExtractor={item => item.id}
-            />
+              {/* <FlatList
+                data={todos}
+                removeClippedSubviews={false}
+                renderItem={({item}) => (
+                  <TodoItems
+                    submitHandler={submitHandler}
+                    item={item}
+                    pressHandler={pressHandler}
+                    editTodo={editTodo}
+                  />
+                )}
+                keyExtractor={item => item.id}
+              /> */}
+            </ScrollView>
           </View>
         </View>
       </View>

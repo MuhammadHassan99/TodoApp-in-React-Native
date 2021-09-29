@@ -1,14 +1,6 @@
 import {Icon} from 'native-base';
 import React, {useState} from 'react';
-import {
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  Text,
-  Alert,
-  Pressable,
-  TextInput,
-} from 'react-native';
+import {View, StyleSheet, TouchableOpacity, TextInput} from 'react-native';
 
 const TodoItems = ({item, pressHandler, editTodo}) => {
   const [text, setText] = useState(item.text);
@@ -27,7 +19,7 @@ const TodoItems = ({item, pressHandler, editTodo}) => {
         />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => editTodo(item.id, item.text)}>
-        <Icon style={styles.closeBtn} name="edit" type="Entypo" />
+        <Icon style={styles.closeBtn} name="arrow-right" type="Feather" />
       </TouchableOpacity>
       <TouchableOpacity onPress={() => pressHandler(item.id)}>
         <Icon style={styles.closeBtn} name="delete" type="AntDesign" />
