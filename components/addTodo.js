@@ -1,7 +1,18 @@
 import React, {useState} from 'react';
 import {View, StyleSheet, TextInput, Button} from 'react-native';
 
-const AddTodo = ({submitHandler, changeHandler, text, setText}) => {
+const AddTodo = ({submitTodo}) => {
+  [text, setText] = useState('');
+
+  const changeHandler = val => {
+    setText(val);
+  };
+
+  const pressHandler = () => {
+    submitTodo(text);
+    setText('');
+  };
+
   return (
     <View>
       <TextInput
@@ -10,11 +21,7 @@ const AddTodo = ({submitHandler, changeHandler, text, setText}) => {
         onChangeText={changeHandler}
         value={text}
       />
-      <Button
-        color="#6495ed"
-        onPress={() => submitHandler(text)}
-        title="add todo"
-      />
+      <Button color="#6495ed" onPress={pressHandler} title="add todo" />
     </View>
   );
 };

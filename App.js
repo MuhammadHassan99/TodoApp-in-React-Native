@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
-  FlatList,
   TouchableWithoutFeedback,
   Keyboard,
   Alert,
   ScrollView,
+  FlatList,
 } from 'react-native';
 import AddTodo from './components/addTodo';
 import Header from './components/header';
-import TodoItems from './components/todItems';
+import TodoItems from './components/todoItems';
 
 const App = () => {
   const [todos, setTodos] = useState([
@@ -19,17 +19,11 @@ const App = () => {
     {text: 'play cricket', id: '3'},
     {text: 'drive car', id: '4'},
   ]);
-  const [todo, setTodo] = useState(todos.text);
-  const [text, setText] = useState('');
 
-  const changeHandler = val => {
-    setText(val);
-  };
-
-  const submitHandler = text => {
-    if (text.length != 0) {
+  const submitTodo = text => {
+    if (text.length > 3) {
       setTodos(prevTodos => {
-        return [{text, id: Math.random().toString()}, ...prevTodos];
+        [{text, id: Math.random().toString()}, ...prevTodos];
       });
     } else {
       Alert.alert(
@@ -38,56 +32,48 @@ const App = () => {
         [{text: 'Understood'}],
       );
     }
-    setText('');
   };
 
-  const pressHandler = id => {
+  const deleteTodos = id => {
     setTodos(prevTodos => {
-      return prevTodos.filter(todo => todo.id != id);
+      return prevTodos.filter(todo => todo.id !== id);
     });
   };
 
-  const editTodo = (text, id) => {
-    setTodo(text);
+  const editTodo = (id, text) => {
+    // const updatedTodo = todos.map(todo => {
+    //   if (todo.id === id) {
+    //     todo.text = text;
+    //   } else {
+    //     return todo;
+    //   }
+    //   console.log('todos', todos);
+    // });
   };
-
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
       <View style={styles.container}>
         <Header />
         <View style={styles.content}>
-          <AddTodo
-            submitHandler={submitHandler}
-            changeHandler={changeHandler}
-            text={text}
-            setText={setText}
-          />
+          <AddTodo submitTodo={submitTodo} />
           <View style={styles.list}>
-            <ScrollView>
-              {React.Children.toArray(
-                todos.map(item => (
-                  <TodoItems
-                    submitHandler={submitHandler}
-                    item={item}
-                    pressHandler={pressHandler}
-                    editTodo={editTodo}
-                  />
-                )),
+            <FlatList
+              data={todos}
+              keyExtractor={todo => todo.id}
+              renderItem={({item}) => (
+                <TodoItems
+                  item={item}
+                  deleteTodos={deleteTodos}
+                  editTodo={editTodo}
+                />
               )}
-              {/* <FlatList
-                data={todos}
-                removeClippedSubviews={false}
-                renderItem={({item}) => (
-                  <TodoItems
-                    submitHandler={submitHandler}
-                    item={item}
-                    pressHandler={pressHandler}
-                    editTodo={editTodo}
-                  />
-                )}
-                keyExtractor={item => item.id}
-              /> */}
-            </ScrollView>
+
+              // <TodoItems
+              //   item={item}
+              //   deleteTodos={deleteTodos}
+              //   editTodo={editTodo}
+              // />
+            />
           </View>
         </View>
       </View>
