@@ -24,8 +24,13 @@ const TodoItems = ({item, deleteTodos, editTodo}) => {
       <TouchableOpacity onPress={() => editTodo(item.id, text)}>
         <Icon style={styles.closeBtn} name="arrow-right" type="Feather" />
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => deleteTodos(item.id)}>
-        <Icon style={styles.closeBtn} name="delete" type="AntDesign" />
+      <TouchableOpacity>
+        <Icon
+          onPress={() => deleteTodos(item.id)}
+          style={styles.closeBtn}
+          name="delete"
+          type="AntDesign"
+        />
       </TouchableOpacity>
     </View>
   );

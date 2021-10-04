@@ -23,7 +23,7 @@ const App = () => {
   const submitTodo = text => {
     if (text.length > 3) {
       setTodos(prevTodos => {
-        [{text, id: Math.random().toString()}, ...prevTodos];
+        return [{text, id: Math.random().toString()}, ...prevTodos];
       });
     } else {
       Alert.alert(
@@ -41,14 +41,14 @@ const App = () => {
   };
 
   const editTodo = (id, text) => {
-    // const updatedTodo = todos.map(todo => {
-    //   if (todo.id === id) {
-    //     todo.text = text;
-    //   } else {
-    //     return todo;
-    //   }
-    //   console.log('todos', todos);
-    // });
+    const updatedTodo = todos.map(todo => {
+      if (todo.id === id) {
+        todo.text = text;
+      } else {
+        return todo;
+      }
+      console.log('todos', todos);
+    });
   };
   return (
     <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
@@ -59,6 +59,7 @@ const App = () => {
           <View style={styles.list}>
             <FlatList
               data={todos}
+              removeClippedSubviews={false}
               keyExtractor={todo => todo.id}
               renderItem={({item}) => (
                 <TodoItems
